@@ -9,22 +9,22 @@ export const menuOptions: { title: string, options: OptionMenu[] }[] = [
     options: [
       {
         name: 'Productos',
-        href: '/calendar',
+        href: '/productos',
         Icon: HamburgerMenuIcon,
       },
       {
         name: 'Categorias',
-        href: '/calendar',
+        href: '/categorias',
         Icon: ArchiveIcon,
       },
       {
         name: 'Marcas',
-        href: '/',
+        href: '/marcas',
         Icon: CommitIcon,
       },
       {
         name: 'Tags',
-        href: '/calendar',
+        href: '/tags',
         Icon: Link2Icon,
       },
     ],
@@ -34,17 +34,17 @@ export const menuOptions: { title: string, options: OptionMenu[] }[] = [
     options: [
       {
         name: 'Dashboard',
-        href: '/',
+        href: '/dashboard',
         Icon: DesktopIcon,
       },
       {
         name: 'Ventas',
-        href: '/calendar',
+        href: '/ventas',
         Icon: CheckIcon,
       },
       {
         name: 'Usuarios',
-        href: '/calendar',
+        href: '/usuarios',
         Icon: AvatarIcon,
       },
     ],
