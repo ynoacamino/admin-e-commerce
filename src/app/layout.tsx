@@ -8,6 +8,7 @@ import AuthProvider from '@/components/providers/AuthProvider';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import NavBar from '@/components/NavBar';
+import LateralBar from '@/components/initialPage/LateralBar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -42,7 +43,12 @@ export default function RootLayout({
             <div className="flex min-h-screen flex-col items-center justify-start w-full">
               <NavBar />
               <div className="w-full flex flex-col justify-start items-center max-w-7xl flex-1 ">
-                {children}
+                <div className="w-full items-start flex py-6">
+                  <LateralBar />
+                  <div className="w-full flex-1 bg-accent">
+                    {children}
+                  </div>
+                </div>
               </div>
             </div>
           </ThemeProvider>

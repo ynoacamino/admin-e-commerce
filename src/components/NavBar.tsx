@@ -2,7 +2,6 @@ import {
   ShadowNoneIcon, CardStackMinusIcon,
 } from '@radix-ui/react-icons';
 import SearchModal from '@/components/SearchModal';
-import OptionsBar from '@/components/OptionsBar';
 import Link from 'next/link';
 import MenubarDemo from './test';
 import { Button } from './ui/button';
@@ -13,12 +12,11 @@ export default function NavBar() {
       <div className="w-full max-w-7xl flex justify-between items-center">
         <div className="flex gap-4 justify-center items-center">
           <Link href="/" className="">
-            <h1 className="flex gap-3 items-center justify-center">
+            <h1 className="flex gap-3 items-center justify-start min-w-fit">
               <ShadowNoneIcon className="font-bold w-9 h-9" />
-              <span className="text-xl font-semibold tracking-tight w-full">My site</span>
+              <span className="text-xl font-semibold tracking-tight w-full">My site | Pagina de administrador</span>
             </h1>
           </Link>
-          <OptionsBar />
         </div>
         <div className="flex gap-4">
           <SearchModal />
