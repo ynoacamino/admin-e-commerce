@@ -43,9 +43,9 @@ export default function RootLayout({
             <div className="flex min-h-screen flex-col items-center justify-start w-full">
               <NavBar />
               <div className="w-full flex flex-col justify-start items-center max-w-7xl flex-1 ">
-                <div className="w-full items-start flex py-6">
+                <div className="w-full items-start flex border-x-[1px] border-border flex-1">
                   <LateralBar />
-                  <div className="w-full flex-1 bg-accent">
+                  <div className="w-full flex-1 h-full">
                     {children}
                   </div>
                 </div>

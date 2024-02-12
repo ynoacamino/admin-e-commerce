@@ -20,7 +20,7 @@ export default function Menu({ title, options }: { title: string, options: Optio
           options.map(({
             Icon, name, isSelect, href,
           }) => (
-            <Link key={name} href={href} isSelect={isSelect} className="justify-start">
+            <Link variants="ghost" key={name} href={href} isSelect={isSelect} className="justify-start">
               {
                 Icon && <Icon className="h-[1.2rem] w-[1.2rem] mr-4" />
               }
