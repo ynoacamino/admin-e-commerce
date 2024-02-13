@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,28 +10,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useRouter } from 'next/navigation';
+import { useDialog } from '@/lib/hooks';
 
 export default function DeleteProductPage() {
-  const [open, setOpen] = useState(false);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    setOpen(true);
-  }, []);
-
-  const handdleClose = (v:Boolean):void => {
-    if (!v) {
-      setOpen(false);
-      router.push('/productos');
-    }
-  };
-
-  const handdleCancel = ():void => {
-    setOpen(false);
-    router.push('/productos');
-  };
+  const { handdleCancel, handdleClose, open } = useDialog();
 
   return (
     <Dialog open={open} onOpenChange={handdleClose}>

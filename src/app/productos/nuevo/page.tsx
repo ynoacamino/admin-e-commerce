@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+/* eslint-disable no-restricted-syntax */
+
+import { useEffect, useState, FormEventHandler } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +16,8 @@ import {
 
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { extractForm } from '@/lib/utils';
+import axios from 'axios';
 import EditProductForm from '../editar/[id]/EditProductForm';
 
 export default function NewProductPage() {
@@ -37,30 +41,48 @@ export default function NewProductPage() {
     router.push('/productos');
   };
 
+  const handdleSubmit:FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = extractForm(formData);
+
+    if (!data) return;
+
+    console.log(data);
+    axios.post('/api/product/create', data)
+      .then(() => console.log('succes'))
+      .catch((err) => {
+        console.error(err.message);
+      });
+  };
+
   return (
-    <Dialog open={open} onOpenChange={handdleClose}>
+    <Dialog open={open} onOpenChange={(handdleClose)}>
       <DialogContent className="w-full m-6 max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            Editar Producto
+            Nuevo Producto
           </DialogTitle>
           <DialogDescription>
-            Edita la información del producto
+            Crea un nuevo producto para tu tienda
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[60vh] px-6">
-          <EditProductForm />
+          <form onSubmit={handdleSubmit}>
+            <EditProductForm />
+            <DialogFooter className="mt-4">
+              <Button
+                variant="outline"
+                type="button"
+                onClick={handdleCancel}
+              >
+                Cancelar
+              </Button>
+              <Button type="submit">Save changes</Button>
+            </DialogFooter>
+          </form>
         </ScrollArea>
-        <DialogFooter>
-          <Button
-            variant="outline"
-            type="button"
-            onClick={handdleCancel}
-          >
-            Cancelar
-          </Button>
-          <Button type="button">Save changes</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
