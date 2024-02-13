@@ -42,3 +42,14 @@ export type ProductFilterQuery = {
   category_id: number[] | undefined,
   product_id: number | undefined,
 };
+
+export interface FormProduct {
+  product_name: string;
+  product_price: number;
+  product_stock: number;
+  product_description: string;
+  // product_image: string;
+  category_id: number;
+  brand_id: number;
+  tags: number[];
+}

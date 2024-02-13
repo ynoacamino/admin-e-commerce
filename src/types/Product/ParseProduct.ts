@@ -1,14 +1,12 @@
 import { isNumber, isString } from '@/lib/parserTypes';
-import { isDate } from 'util/types';
 import { NewProduct, ProductFilterQuery, UpdateProduct } from './Product';
 
 export function isNewProduct(product: unknown): product is NewProduct {
   if (product && typeof product === 'object') {
     if ('category_id' in product
       && 'brand_id' in product
-      && 'product_date' in product
       && 'product_description' in product
-      && 'product_image' in product
+      // && 'product_image' in product
       && 'product_name' in product
       && 'product_price' in product
       && 'product_stock' in product
@@ -17,14 +15,13 @@ export function isNewProduct(product: unknown): product is NewProduct {
       return (
         isNumber(product.category_id)
         && isNumber(product.brand_id)
-        && isString(product.product_image)
+        // && isString(product.product_image)
         && isString(product.product_name)
         && isString(product.product_description)
         && isNumber(product.product_price)
         && isNumber(product.product_stock)
         && Array.isArray(product.tags)
         && product.tags.every(isNumber)
-        && isDate(product.product_date)
       );
     }
     return false;
