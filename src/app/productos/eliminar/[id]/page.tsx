@@ -13,7 +13,7 @@ import {
 import { useDialog } from '@/lib/hooks';
 
 export default function DeleteProductPage() {
-  const { handdleCancel, handdleClose, open } = useDialog();
+  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/productos' });
 
   return (
     <Dialog open={open} onOpenChange={handdleClose}>

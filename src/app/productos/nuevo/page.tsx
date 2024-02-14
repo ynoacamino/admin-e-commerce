@@ -2,7 +2,7 @@
 
 /* eslint-disable no-restricted-syntax */
 
-import { useEffect, useState, FormEventHandler } from 'react';
+import { FormEventHandler } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,40 +14,26 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { extractForm } from '@/lib/utils';
+import { extractCategoryForm } from '@/lib/utils';
 import axios from 'axios';
+import { useDialog } from '@/lib/hooks';
+import { isNewProduct } from '@/types/Product/ParseProduct';
 import EditProductForm from '../editar/[id]/EditProductForm';
 
 export default function NewProductPage() {
-  const [open, setOpen] = useState(false);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    setOpen(true);
-  }, []);
-
-  const handdleClose = (v:Boolean):void => {
-    if (!v) {
-      setOpen(false);
-      router.push('/productos');
-    }
-  };
-
-  const handdleCancel = ():void => {
-    setOpen(false);
-    router.push('/productos');
-  };
+  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/productos' });
 
   const handdleSubmit:FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const data = extractForm(formData);
+    const data = extractCategoryForm(formData);
 
-    if (!data) return;
+    if (!isNewProduct(data)) {
+      console.error('Invalid form values');
+      return;
+    }
 
     console.log(data);
     axios.post('/api/product/create', data)
@@ -58,7 +44,7 @@ export default function NewProductPage() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={(handdleClose)}>
+    <Dialog open={open} onOpenChange={handdleClose}>
       <DialogContent className="w-full m-6 max-w-lg">
         <DialogHeader>
           <DialogTitle>

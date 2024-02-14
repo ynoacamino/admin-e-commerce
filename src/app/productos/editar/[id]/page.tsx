@@ -15,7 +15,7 @@ import { useDialog } from '@/lib/hooks';
 import EditProductForm from './EditProductForm';
 
 export default function EditProductPage() {
-  const { handdleCancel, handdleClose, open } = useDialog();
+  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/productos' });
 
   return (
     <Dialog open={open} onOpenChange={handdleClose}>
