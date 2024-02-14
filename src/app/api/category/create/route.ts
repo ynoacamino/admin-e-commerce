@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { isNewCategory } from '@/types/Category/ParseCategory';
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(req: Request) {
   const newCategory = await req.json();
@@ -21,5 +22,6 @@ export async function POST(req: Request) {
     },
   });
 
+  revalidatePath('/', 'layout');
   return NextResponse.json(category);
 }
