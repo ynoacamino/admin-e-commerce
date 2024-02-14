@@ -9,6 +9,7 @@ import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import NavBar from '@/components/NavBar';
 import LateralBar from '@/components/initialPage/LateralBar';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -51,6 +52,7 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
+            <Toaster />
           </ThemeProvider>
         </AuthProvider>
       </body>
