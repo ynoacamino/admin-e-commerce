@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export const useDialog = () => {
+export const useDialog = ({ callbackUrl }: { callbackUrl: string }) => {
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -13,13 +13,13 @@ export const useDialog = () => {
   const handdleClose = (v:Boolean):void => {
     if (!v) {
       setOpen(false);
-      router.push('/productos');
+      router.push(callbackUrl);
     }
   };
 
   const handdleCancel = ():void => {
     setOpen(false);
-    router.push('/productos');
+    router.push(callbackUrl);
   };
 
   return {
