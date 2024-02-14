@@ -19,8 +19,12 @@ import { useDialog } from '@/lib/hooks';
 
 import CategoryForm from '@/components/form/CategoryForm';
 import { isNewCategory } from '@/types/Category/ParseCategory';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function NewCategoryPage() {
+  const { toast } = useToast();
+  const router = useRouter();
   const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/categorias' });
 
   const handdleSubmit:FormEventHandler<HTMLFormElement> = (e) => {
@@ -35,9 +39,21 @@ export default function NewCategoryPage() {
     }
 
     axios.post('/api/category/create', data)
-      .then(() => console.log('succes'))
-      .catch((err) => {
-        console.error(err.message);
+      .then(() => {
+        toast({
+          title: 'Categoria guardada',
+          description: 'La categoria se guardo correctamente',
+          variant: 'default',
+        });
+        router.prefetch('/categorias');
+        router.push('/categorias');
+      })
+      .catch(() => {
+        toast({
+          title: 'Error al guardar',
+          description: 'Ocurrio un error al guardar la categoria, intenta de nuevo o mas tarde',
+          variant: 'destructive',
+        });
       });
   };
 
@@ -46,10 +62,10 @@ export default function NewCategoryPage() {
       <DialogContent className="w-full m-6 max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            Nuevo Producto
+            Nueva Categoria
           </DialogTitle>
           <DialogDescription>
-            Crea un nuevo producto para tu tienda
+            Crea una nueva categoria para tu tienda
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[60vh] px-6">
@@ -63,7 +79,7 @@ export default function NewCategoryPage() {
               >
                 Cancelar
               </Button>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">Guardar cambios</Button>
             </DialogFooter>
           </form>
         </ScrollArea>
