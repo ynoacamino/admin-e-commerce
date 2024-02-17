@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run clear && next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "set PORT=3001 && next start",
+    "lint": "next lint",
+    "clear": "IF EXIST .\\.next rmdir /s /q .\\.next"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
