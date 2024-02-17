@@ -12,7 +12,7 @@ type LinkProps = {
 };
 
 export default function Link({
-  children, className, href, size, isSelect, variants, ...props
+  children, className = '', href, size = 'default', isSelect = false, variants = 'default', ...props
 }: LinkProps) {
   return (
     <NextLink
@@ -43,11 +43,3 @@ export default function Link({
     </NextLink>
   );
 }
-
-Link.defaultProps = {
-  size: 'default',
-  className: '',
-  props: {},
-  isSelect: false,
-  variants: 'default',
-};
