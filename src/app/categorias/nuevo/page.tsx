@@ -14,7 +14,6 @@ import {
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { extractCategoryForm } from '@/lib/utils';
-import axios from 'axios';
 import { useDialog } from '@/lib/hooks';
 
 import CategoryForm from '@/components/form/CategoryForm';
@@ -27,7 +26,7 @@ export default function NewCategoryPage() {
   const router = useRouter();
   const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/categorias' });
 
-  const handdleSubmit:FormEventHandler<HTMLFormElement> = (e) => {
+  const handdleSubmit:FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -38,23 +37,32 @@ export default function NewCategoryPage() {
       return;
     }
 
-    axios.post('/api/category/create', data)
-      .then(() => {
-        toast({
-          title: 'Categoria guardada',
-          description: 'La categoria se guardo correctamente',
-          variant: 'default',
-        });
-        router.prefetch('/categorias');
-        router.push('/categorias');
-      })
-      .catch(() => {
-        toast({
-          title: 'Error al guardar',
-          description: 'Ocurrio un error al guardar la categoria, intenta de nuevo o mas tarde',
-          variant: 'destructive',
-        });
+    try {
+      const res = await fetch('/api/category/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
+
+      if (!res.ok) throw new Error('Network response was not ok');
+
+      toast({
+        title: 'Categoria guardada',
+        description: 'La categoria se guardo correctamente',
+        variant: 'default',
+      });
+    } catch (err) {
+      toast({
+        title: 'Error al guardar',
+        description: 'Ocurrio un error al guardar la categoria, intenta de nuevo o mas tarde',
+        variant: 'destructive',
+      });
+    }
+
+    router.refresh();
+    router.push('/categorias');
   };
 
   return (
