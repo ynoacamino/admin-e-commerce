@@ -7,8 +7,10 @@ export default withAuth(
   function middleware() {},
   {
     callbacks: {
-      authorized: ({ token }) => {
-        if (token === null) {
+      authorized: ({ token, req }) => {
+        // console.log({ req: req.nextUrl, pass: req.nextUrl.href.includes('read') });
+        // if (req.nextUrl.href.includes('read')) return true;
+        if (!req.nextUrl.pathname.startsWith('/api') && token === null) {
           return false;
         }
         return true;
