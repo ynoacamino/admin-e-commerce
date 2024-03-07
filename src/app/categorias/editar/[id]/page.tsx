@@ -8,7 +8,6 @@ import BackButton from '@/components/ui/BackButton';
 import { action } from './action';
 
 const getData = async (id: string) => {
-  console.log('id', id);
   try {
     const response = await fetch('http://localhost:3001/api/category/read', {
       method: 'POST',
@@ -25,7 +24,7 @@ const getData = async (id: string) => {
   }
 };
 
-export default async function NewCategoryPage({ params } : { params: { id: string } }) {
+export default async function EditCategoryPage({ params } : { params: { id: string } }) {
   const data = await getData(params.id);
   return (
     <ModalLayout>
