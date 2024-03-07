@@ -2,7 +2,11 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-export default function CategoryForm() {
+export default function CategoryForm(
+  { category_name = '', category_description = '' }
+  :
+  { category_name?: string, category_description?: string },
+) {
   return (
     <div className="grid gap-4 py-4 px-1">
       <div className="grid grid-cols-4 items-center gap-4">
@@ -12,7 +16,7 @@ export default function CategoryForm() {
         <Input
           id="category_name"
           name="category_name"
-          defaultValue="Nombre de la categoria"
+          defaultValue={category_name}
           className="col-span-3"
         />
       </div>
@@ -23,7 +27,7 @@ export default function CategoryForm() {
         <Textarea
           id="category_description"
           name="category_description"
-          defaultValue="Descripción de la categoria"
+          defaultValue={category_description}
           className="col-span-3"
         />
       </div>

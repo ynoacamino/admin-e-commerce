@@ -24,10 +24,10 @@ export default function CategoryCard({
         {category_description}
       </CardContent>
       <CardFooter className="flex gap-4 md:justify-start justify-center">
-        <Link variants="default" href={`/productos/editar/${category_id}`}>
+        <Link variants="default" href={`/categorias/editar/${category_id}`}>
           Editar
         </Link>
-        <Link variants="warning" href={`/productos/eliminar/${category_id}`}>
+        <Link variants="warning" href={`/categorias/eliminar/${category_id}`}>
           Eliminar
         </Link>
       </CardFooter>
