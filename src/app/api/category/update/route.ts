@@ -1,6 +1,7 @@
 import { isUpdateCategory } from '@/types/Category/ParseCategory';
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 export async function POST({ json }: Request) {
   const updateCategory = await json();
@@ -21,5 +22,6 @@ export async function POST({ json }: Request) {
     },
   });
 
+  revalidatePath('/categorias', 'layout');
   return NextResponse.json(category);
 }

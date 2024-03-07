@@ -1,59 +1,34 @@
-'use client';
-
-import { FormEventHandler } from 'react';
-
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 
-import { useDialog } from '@/lib/hooks';
-import axios from 'axios';
+import ModalLayout from '@/components/ui/modalLayout';
+import BackButton from '@/components/ui/BackButton';
+import { action } from './action';
 
-export default function DeleteCategoryPage() {
-  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/categorias' });
-
-  const ID = 1;
-
-  const handdleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    axios.post('/api/category/delete', { category_id: ID })
-      .then(() => console.log('succes'))
-      .catch((err) => {
-        console.error(err.message);
-      });
-  };
-
+export default function DeleteCategoryPage({ params } : { params: { id: string } }) {
   return (
-    <Dialog open={open} onOpenChange={handdleClose}>
-      <DialogContent className="w-full m-6 max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            Eliminar Categoria
-          </DialogTitle>
-          <DialogDescription>
-            Eliminar una categoria de manera permanente.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handdleSubmit}>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              type="button"
-              onClick={handdleCancel}
-            >
-              Cancelar
-            </Button>
-            <Button type="button" variant="destructive">Eliminar</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <ModalLayout>
+      <header className="flex flex-col mb-4">
+        <h1
+          className="text-2xl font-bold"
+        >
+          Eliminar categoria
+        </h1>
+        <p>
+          ¿Estás seguro de que quieres eliminar esta categoria?
+        </p>
+      </header>
+      <form action={action}>
+        <input type="hidden" name="category_id" value={params.id} />
+        <div className="w-full flex justify-end gap-4 mt-4">
+          <BackButton
+            variant="outline"
+            type="button"
+          >
+            Cancelar
+          </BackButton>
+          <Button type="submit" variant="destructive">Eliminar</Button>
+        </div>
+      </form>
+    </ModalLayout>
   );
 }

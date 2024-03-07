@@ -1,73 +1,62 @@
-'use client';
-
-import { FormEventHandler } from 'react';
-
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { extractCategoryForm } from '@/lib/utils';
-import axios from 'axios';
-import { useDialog } from '@/lib/hooks';
-
 import CategoryForm from '@/components/form/CategoryForm';
-import { isUpdateCategory } from '@/types/Category/ParseCategory';
+import { Button } from '@/components/ui/button';
 
-export default function NewCategoryPage() {
-  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/categorias' });
+import ModalLayout from '@/components/ui/modalLayout';
+import { Category } from '@prisma/client';
+import BackButton from '@/components/ui/BackButton';
+import { action } from './action';
 
-  const handdleSubmit:FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+const getData = async (id: string) => {
+  console.log('id', id);
+  try {
+    const response = await fetch('http://localhost:3001/api/category/read', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category_id: Number(id) }),
+    });
+    const data = await response.json();
+    return data as Category;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
 
-    const formData = new FormData(e.currentTarget);
-    const data = extractCategoryForm(formData);
-
-    if (!isUpdateCategory(data)) {
-      console.error('Invalid form values');
-      return;
-    }
-
-    axios.post('/api/category/update', data)
-      .then(() => console.log('succes'))
-      .catch((err) => {
-        console.error(err.message);
-      });
-  };
-
+export default async function NewCategoryPage({ params } : { params: { id: string } }) {
+  const data = await getData(params.id);
   return (
-    <Dialog open={open} onOpenChange={handdleClose}>
-      <DialogContent className="w-full m-6 max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            Editar Producto
-          </DialogTitle>
-          <DialogDescription>
-            Edita un producto para tu tienda
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="max-h-[60vh] px-6">
-          <form onSubmit={handdleSubmit}>
-            <CategoryForm />
-            <DialogFooter className="mt-4">
-              <Button
-                variant="outline"
-                type="button"
-                onClick={handdleCancel}
-              >
-                Cancelar
-              </Button>
-              <Button type="submit">Guardar cambios</Button>
-            </DialogFooter>
-          </form>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
+    <ModalLayout>
+      <ScrollArea className="max-h-[60vh]">
+        <header className="flex flex-col mb-4">
+          <h1
+            className="text-2xl font-bold"
+          >
+            Añadir una nueva categoria
+          </h1>
+          <p>
+            Añade una nueva categoria a tu tienda.
+          </p>
+        </header>
+        <form action={action}>
+          <input type="hidden" name="category_id" value={params.id} />
+          <CategoryForm
+            category_description={data?.category_description}
+            category_name={data?.category_name}
+          />
+          <div className="w-full flex justify-end gap-4 mt-4">
+            <BackButton
+              variant="outline"
+              type="button"
+            >
+              Cancelar
+            </BackButton>
+            <Button type="submit">Guardar cambios</Button>
+          </div>
+        </form>
+      </ScrollArea>
+    </ModalLayout>
   );
 }

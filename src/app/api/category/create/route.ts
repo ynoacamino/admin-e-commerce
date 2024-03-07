@@ -22,9 +22,6 @@ export async function POST(req: Request) {
     },
   });
 
-  revalidatePath('/', 'layout');
   revalidatePath('/categorias', 'layout');
-  revalidatePath('/categorias', 'page');
-  revalidatePath('/api/category/read');
   return NextResponse.json(category);
 }
