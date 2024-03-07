@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run clear && next dev",
+    "dev": "npm run clear && set PORT=3001 && next dev",
     "build": "next build",
     "start": "set PORT=3001 && next start",
     "lint": "next lint",
