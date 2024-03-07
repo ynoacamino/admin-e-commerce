@@ -1,5 +1,6 @@
 import { isNumber } from '@/lib/parserTypes';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 export async function POST({ json }: Request) {
@@ -19,5 +20,6 @@ export async function POST({ json }: Request) {
     where: { brand_id },
   });
 
+  revalidatePath('/marcas', 'layout');
   return NextResponse.json(brand);
 }

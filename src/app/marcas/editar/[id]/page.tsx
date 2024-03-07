@@ -1,78 +1,63 @@
-'use client';
-
-import { FormEventHandler } from 'react';
-
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-
+import ModalLayout from '@/components/ui/modalLayout';
+import BackButton from '@/components/ui/BackButton';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import axios from 'axios';
-import { useDialog } from '@/lib/hooks';
-
 import BrandForm from '@/components/form/BrandForm';
-import { extractBrandForm } from '@/lib/utils';
-import { isUpdateBrand } from '@/types/Brand/ParseBrand';
-import { UpdateBrand } from '@/types/Brand/Brand';
+import { Button } from '@/components/ui/button';
+import { Brand } from '@prisma/client';
+import { action } from './action';
 
-export default function EditBrandPage() {
-  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/marcas' });
+export const revalidate = 0;
 
-  const handdleSubmit:FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+const getData = async (id: string) => {
+  const brand_id = Number(id);
 
-    const ID = 1;
+  try {
+    const response = await fetch('http://localhost:3001/api/brand/read', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ brand_id }),
+    });
+    const data = await response.json();
+    return data as Brand;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
 
-    const formData = new FormData(e.currentTarget);
-    const data = extractBrandForm(formData) as UpdateBrand;
-
-    data.brand_id = ID;
-
-    if (!isUpdateBrand(data)) {
-      console.error('Invalid form values');
-      return;
-    }
-
-    axios.post('/api/brand/update', { ...data, brand_id: ID })
-      .then(() => console.log('succes'))
-      .catch((err) => {
-        console.error(err.message);
-      });
-  };
-
+export default async function EditBrandPage({ params } : { params: { id: string } }) {
+  const data = await getData(params.id);
   return (
-    <Dialog open={open} onOpenChange={handdleClose}>
-      <DialogContent className="w-full m-6 max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            Edita una Marca
-          </DialogTitle>
-          <DialogDescription>
-            Edita una marca para tu tienda
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="max-h-[60vh] px-6">
-          <form onSubmit={handdleSubmit}>
-            <BrandForm />
-            <DialogFooter className="mt-4">
-              <Button
-                variant="outline"
-                type="button"
-                onClick={handdleCancel}
-              >
-                Cancelar
-              </Button>
-              <Button type="submit">Guardar cambios</Button>
-            </DialogFooter>
-          </form>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
+    <ModalLayout>
+      <header className="flex flex-col mb-4">
+        <h1
+          className="text-2xl font-bold"
+        >
+          Añadir una nueva categoria
+        </h1>
+        <p>
+          Añade una nueva categoria a tu tienda.
+        </p>
+      </header>
+      <ScrollArea className="max-h-[60vh]">
+        <form action={action}>
+          <input type="hidden" name="brand_id" value={params.id} />
+          <BrandForm brand_name={data?.brand_name} />
+          <div className="w-full flex justify-end gap-4 mt-4">
+            <BackButton
+              variant="outline"
+              type="button"
+            >
+              Cancelar
+            </BackButton>
+            <Button type="submit">Guardar cambios</Button>
+          </div>
+        </form>
+      </ScrollArea>
+
+    </ModalLayout>
+
   );
 }

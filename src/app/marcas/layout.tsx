@@ -1,7 +1,26 @@
 import ManagerLayout from '@/components/ManagerLayout';
 import BrandCard from '@/components/ui/BrandCard';
+import { Brand } from '@prisma/client';
 
-export default function ProductosLayout({ children }: { children: React.ReactNode }) {
+const getData = async () => {
+  try {
+    const response = await fetch('http://localhost:3001/api/brand/read', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    });
+    const data = await response.json();
+    return data as Brand[];
+  } catch (error) {
+    console.error('Error:', error);
+    return [];
+  }
+};
+
+export default async function ProductosLayout({ children }: { children: React.ReactNode }) {
+  const data = await getData();
   return (
     <>
       <ManagerLayout
@@ -11,13 +30,13 @@ export default function ProductosLayout({ children }: { children: React.ReactNod
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {
-          Array.from({ length: 10 }).map(() => (
-            <BrandCard
-              key={crypto.randomUUID()}
-              brand_id={1}
-              brand_name="Smartwatch HUAWEI Watch Fit 2 Rosado"
-            />
-          ))
+            data.map((brand) => (
+              <BrandCard
+                key={brand.brand_id}
+                brand_name={brand.brand_name}
+                brand_id={brand.brand_id}
+              />
+            ))
           }
         </div>
       </ManagerLayout>

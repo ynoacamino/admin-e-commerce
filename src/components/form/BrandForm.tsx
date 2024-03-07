@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
-export default function BrandForm() {
+export default function BrandForm({ brand_name = '' }: { brand_name?: string }) {
   return (
     <div className="grid gap-4 py-4 px-1">
       <div className="grid grid-cols-4 items-center gap-4">
@@ -11,7 +11,8 @@ export default function BrandForm() {
         <Input
           id="brand_name"
           name="brand_name"
-          defaultValue="Nombre de la marca"
+          placeholder="Nombre de la marca"
+          defaultValue={brand_name}
           className="col-span-3"
         />
       </div>

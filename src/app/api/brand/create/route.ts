@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { isNewBrand } from '@/types/Brand/ParseBrand';
+import { revalidatePath } from 'next/cache';
 
 export async function POST({ json }: Request) {
   const newBrand = await json();
@@ -17,5 +18,6 @@ export async function POST({ json }: Request) {
     },
   });
 
+  revalidatePath('/marcas', 'layout');
   return NextResponse.json(brand);
 }
