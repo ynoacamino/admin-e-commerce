@@ -9,13 +9,15 @@ type LinkProps = {
   size?: 'default' | 'sm' | 'lg' | 'icon',
   isSelect?: boolean,
   variants?: 'edit' | 'default' | 'success' | 'warning' | 'ghost' | 'link',
+  scroll?: boolean,
 };
 
 export default function Link({
-  children, className = '', href, size = 'default', isSelect = false, variants = 'default', ...props
+  children, className = '', href, size = 'default', isSelect = false, variants = 'default', scroll = true, ...props
 }: LinkProps) {
   return (
     <NextLink
+      scroll={scroll}
       href={href}
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
