@@ -20,7 +20,7 @@ export default function NewBrandPage() {
           Añade una nueva categoria a tu tienda.
         </p>
       </header>
-      <ScrollArea className="max-h-[60vh] px-6">
+      <ScrollArea className="max-h-[75vh] px-6">
         <form action={action}>
           <BrandForm />
           <div className="w-full flex justify-end gap-4 mt-4">

@@ -41,7 +41,7 @@ export default async function EditProductPage({ params } : { params: { id: strin
           Modifica los datos del producto.
         </p>
       </header>
-      <ScrollArea className="max-h-[60vh] px-6">
+      <ScrollArea className="max-h-[75vh] px-6">
         <form action={action}>
           <input type="hidden" name="product_id" value={data?.product_id} />
           <ProductForm

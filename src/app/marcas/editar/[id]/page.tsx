@@ -41,7 +41,7 @@ export default async function EditBrandPage({ params } : { params: { id: string 
           Añade una nueva categoria a tu tienda.
         </p>
       </header>
-      <ScrollArea className="max-h-[60vh]">
+      <ScrollArea className="max-h-[75vh]">
         <form action={action}>
           <input type="hidden" name="brand_id" value={params.id} />
           <BrandForm brand_name={data?.brand_name} />

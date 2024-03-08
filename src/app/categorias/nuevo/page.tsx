@@ -9,7 +9,7 @@ import { action } from './action';
 export default function NewCategoryPage() {
   return (
     <ModalLayout>
-      <ScrollArea className="max-h-[60vh]">
+      <ScrollArea className="max-h-[75vh]">
         <header className="flex flex-col mb-4">
           <h1
             className="text-2xl font-bold"

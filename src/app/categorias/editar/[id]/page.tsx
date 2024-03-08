@@ -28,7 +28,7 @@ export default async function EditCategoryPage({ params } : { params: { id: stri
   const data = await getData(params.id);
   return (
     <ModalLayout>
-      <ScrollArea className="max-h-[60vh]">
+      <ScrollArea className="max-h-[75vh]">
         <header className="flex flex-col mb-4">
           <h1
             className="text-2xl font-bold"
