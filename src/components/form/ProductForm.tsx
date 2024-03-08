@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/select';
 // import Checkbox from '../ui/checkbox';
 import { prisma } from '@/lib/prisma';
+import ImageForm from './ImageForm';
 
 const getProductInfo = async () => {
   const categories = await prisma.category.findMany();
@@ -131,11 +132,11 @@ export default async function ProductForm(
           </SelectContent>
         </Select>
       </div>
-      <div className="grid grid-cols-4 items-center gap-4">
+      {/* <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="product_tags" className="text-right">
           Tags
         </Label>
-        {/* <div
+        <div
           className="col-span-3 flex gap-3 flex-wrap border-border border-[1px] rounded-lg p-3"
         >
           {
@@ -148,8 +149,9 @@ export default async function ProductForm(
               />
             ))
           }
-        </div> */}
-      </div>
+        </div>
+      </div> */}
+      <ImageForm />
     </div>
   );
 }
