@@ -24,6 +24,11 @@ const priceDetails = {
 export async function findById({ product_id } : { product_id: number }) {
   const item = await prisma.product.findUnique({
     where: { product_id },
+    include: {
+      brand: true,
+      category: true,
+      rating: true,
+    },
   });
 
   return item;
@@ -46,6 +51,11 @@ export async function findAll(query: ProductFilterQuery) {
           OR: query.category_id?.map((c) => ({ category: { category_id: c } })),
         },
       ],
+    },
+    include: {
+      brand: true,
+      category: true,
+      rating: true,
     },
   });
 

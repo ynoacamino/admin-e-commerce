@@ -1,3 +1,5 @@
+import { Product } from '@prisma/client';
+
 export interface NewProduct {
   category_id: number;
   brand_id: number;
@@ -53,3 +55,21 @@ export interface FormProduct {
   brand_id: number;
   tags: number[];
 }
+
+export type PopultedProduct = Product & {
+  brand: {
+    brand_name: string;
+    brand_id: number;
+  },
+  category: {
+    category_name: string;
+    category_id: number;
+    category_description: string;
+  },
+  raiting: {
+    rating_id: number;
+    rating_rate: number;
+    rating_count: number;
+    product_id: number;
+  }
+};

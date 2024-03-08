@@ -1,6 +1,7 @@
 import { isUpdateProduct } from '@/types/Product/ParseProduct';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 export async function POST({ json }: Request) {
   const updateProduct = await json();
@@ -45,5 +46,6 @@ export async function POST({ json }: Request) {
     },
   });
 
+  revalidatePath('/productos', 'layout');
   return NextResponse.json(product);
 }

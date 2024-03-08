@@ -1,42 +1,33 @@
-'use client';
-
+import ModalLayout from '@/components/ui/modalLayout';
+import BackButton from '@/components/ui/BackButton';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { action } from './action';
 
-import { useDialog } from '@/lib/hooks';
-
-export default function DeleteProductPage() {
-  const { handdleCancel, handdleClose, open } = useDialog({ callbackUrl: '/productos' });
-
+export default function DeleteProductPage({ params } : { params: { id: string } }) {
   return (
-    <Dialog open={open} onOpenChange={handdleClose}>
-      <DialogContent className="w-full m-6 max-w-lg">
-        <DialogHeader>
-          <DialogTitle>
-            Eliminar Producto
-          </DialogTitle>
-          <DialogDescription>
-            Eliminar un producto de manera permanente.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button
+    <ModalLayout>
+      <header className="flex flex-col mb-4">
+        <h1
+          className="text-2xl font-bold"
+        >
+          Eliminar producto
+        </h1>
+        <p>
+          ¿Estás seguro de que quieres eliminar este producto?
+        </p>
+      </header>
+      <form action={action}>
+        <input type="hidden" name="product_id" value={params.id} />
+        <div className="w-full flex justify-end gap-4 mt-4">
+          <BackButton
             variant="outline"
             type="button"
-            onClick={handdleCancel}
           >
             Cancelar
-          </Button>
-          <Button type="button" variant="destructive">Eliminar</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </BackButton>
+          <Button type="submit" variant="destructive">Eliminar</Button>
+        </div>
+      </form>
+    </ModalLayout>
   );
 }

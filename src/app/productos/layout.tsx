@@ -1,7 +1,21 @@
 import ManagerLayout from '@/components/ManagerLayout';
 import ProductCard from '@/components/ui/ProductCard';
+import { PopultedProduct } from '@/types/Product/Product';
 
-export default function ProductosLayout({ children }: { children: React.ReactNode }) {
+const getProducts = async () => {
+  const response = await fetch('http://localhost:3001/api/product/read', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  });
+  const data = await response.json();
+  return data as PopultedProduct[];
+};
+
+export default async function ProductosLayout({ children }: { children: React.ReactNode }) {
+  const data = await getProducts();
   return (
     <>
       <ManagerLayout
@@ -10,14 +24,14 @@ export default function ProductosLayout({ children }: { children: React.ReactNod
         newButtonHref="/productos/nuevo"
       >
         {
-          Array.from({ length: 10 }).map(() => (
+          data.map((product) => (
             <ProductCard
-              key={crypto.randomUUID()}
-              product_brand="Brand Item"
-              product_id={1}
-              product_image=""
-              product_name="Smartwatch HUAWEI Watch Fit 2 Rosado"
-              product_price={239}
+              key={product.product_id}
+              product_brand={product.brand.brand_name}
+              product_id={product.product_id}
+              product_image={product.product_image}
+              product_name={product.product_name}
+              product_price={product.product_price}
             />
           ))
         }

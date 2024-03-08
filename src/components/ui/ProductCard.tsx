@@ -44,7 +44,7 @@ export default function ProductCard({
           </p>
         </CardContent>
         <CardFooter className="flex gap-4 md:justify-start justify-center">
-          <Link variants="default" href={`/productos/editar/${product_id}`}>
+          <Link scroll={false} variants="default" href={`/productos/editar/${product_id}`}>
             Editar
           </Link>
           <Link variants="warning" href={`/productos/eliminar/${product_id}`}>
@@ -54,10 +54,11 @@ export default function ProductCard({
       </div>
       <Image
         alt="Card Image"
-        src="https://res.cloudinary.com/dazt6g3o1/image/upload/v1707404432/u12uoxlhzpm927slfy24.png"
+        src={product_image}
         height={300}
         width={300}
         className="w-52 h-52 border-border border-[1px] m-5"
+        priority
       />
     </Card>
   );
