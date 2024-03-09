@@ -9,6 +9,7 @@ export const action = async (formData: FormData) => {
   const product_stock = Number(formData.get('product_stock'));
   const product_category = Number(formData.get('product_category'));
   const product_brand = Number(formData.get('product_brand'));
+  const product_image = formData.get('product_image');
 
   const response = await fetch('http://localhost:3001/api/product/create', {
     method: 'POST',
@@ -21,6 +22,7 @@ export const action = async (formData: FormData) => {
       brand_id: product_brand,
       tags: [],
       product_date: new Date(),
+      product_image,
     }),
     headers: {
       'Content-Type': 'application/json',

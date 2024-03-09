@@ -4,8 +4,6 @@ import { isNewProduct } from '@/types/Product/ParseProduct';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
-const DEFAULT_IMAGE = 'https://res.cloudinary.com/dazt6g3o1/image/upload/v1707841235/tnqnayhbiwuxst804bci.webp';
-
 export async function POST({ json }: Request) {
   const newProduct = await json();
 
@@ -21,7 +19,7 @@ export async function POST({ json }: Request) {
 
     product_date,
     product_description,
-    // product_image,
+    product_image,
     product_name,
     product_price,
     product_stock,
@@ -30,7 +28,7 @@ export async function POST({ json }: Request) {
   const product = await prisma.product.create({
     data: {
       product_description,
-      product_image: DEFAULT_IMAGE,
+      product_image,
       product_name,
       product_price,
       product_stock,
@@ -51,6 +49,6 @@ export async function POST({ json }: Request) {
     },
   });
 
-  revalidatePath('productos', 'layout');
+  revalidatePath('/productos', 'layout');
   return NextResponse.json(product);
 }

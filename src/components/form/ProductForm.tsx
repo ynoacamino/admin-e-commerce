@@ -26,13 +26,15 @@ export default async function ProductForm(
     product_stock = 0,
     product_category = '',
     product_brand = '',
+    product_image = '',
   } : {
     product_name?: string,
     product_price?: number,
     product_description?: string,
     product_stock?: number,
     product_category?: string,
-    product_brand?: string
+    product_brand?: string,
+    product_image?: string,
   },
 ) {
   const data = await getProductInfo();
@@ -151,7 +153,7 @@ export default async function ProductForm(
           }
         </div>
       </div> */}
-      <ImageForm />
+      <ImageForm defaultImageUrl={product_image} />
     </div>
   );
 }

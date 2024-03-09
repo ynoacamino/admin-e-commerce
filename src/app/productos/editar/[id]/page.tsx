@@ -52,7 +52,7 @@ export default async function EditProductPage({ params } : { params: { id: strin
             product_stock={data?.product_stock}
             product_brand={String(data?.brand.brand_id)}
             product_category={String(data?.category.category_id)}
-
+            product_image={data?.product_image}
           />
           <div className="w-full flex justify-end gap-4 mt-4">
             <BackButton

@@ -1,7 +1,5 @@
 import { redirect } from 'next/navigation';
 
-const DEFAULT_IMAGE = 'https://res.cloudinary.com/dazt6g3o1/image/upload/v1707841235/tnqnayhbiwuxst804bci.webp';
-
 export const action = async (formData: FormData) => {
   'use server';
 
@@ -12,8 +10,9 @@ export const action = async (formData: FormData) => {
   const product_stock = Number(formData.get('product_stock'));
   const product_category = Number(formData.get('product_category'));
   const product_brand = Number(formData.get('product_brand'));
+  const product_image = formData.get('product_image');
 
-  const response = await fetch('http://localhost:3001/api/product/create', {
+  const response = await fetch('http://localhost:3001/api/product/update', {
     method: 'POST',
     body: JSON.stringify({
       product_name,
@@ -25,7 +24,7 @@ export const action = async (formData: FormData) => {
       tags: [],
       product_date: new Date(),
       product_id,
-      product_image: DEFAULT_IMAGE,
+      product_image,
     }),
     headers: {
       'Content-Type': 'application/json',

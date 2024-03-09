@@ -9,7 +9,11 @@ import { Check } from '../ui/check';
 
 const DEFAULT_IMAGE = 'https://res.cloudinary.com/dazt6g3o1/image/upload/v1707841235/tnqnayhbiwuxst804bci.webp';
 
-export default function ImageForm() {
+export default function ImageForm(
+  { defaultImageUrl = undefined }
+  :
+  { defaultImageUrl?: string | undefined },
+) {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>('');
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -71,7 +75,7 @@ export default function ImageForm() {
       </Label>
       <div className="col-span-3 flex-col items-center flex gap-3 flex-wrap border-border border-[1px] rounded-lg p-3">
         <Image
-          src={String(imagePreview) || DEFAULT_IMAGE}
+          src={String(imagePreview) || defaultImageUrl || DEFAULT_IMAGE}
           alt="img"
           className="w-full aspect-square rounded-lg bg-background"
           width={400}
@@ -81,10 +85,9 @@ export default function ImageForm() {
           <input
             type="file"
             accept="image/*"
-            required
             onChange={handleChange}
           />
-          <input type="hidden" name="product_image" value={imageUrl || DEFAULT_IMAGE} />
+          <input type="hidden" name="product_image" value={imageUrl || defaultImageUrl || DEFAULT_IMAGE} />
           {
             loading ? (
               <Spiner />

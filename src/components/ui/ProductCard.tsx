@@ -47,7 +47,7 @@ export default function ProductCard({
           <Link scroll={false} variants="default" href={`/productos/editar/${product_id}`}>
             Editar
           </Link>
-          <Link variants="warning" href={`/productos/eliminar/${product_id}`}>
+          <Link scroll={false} variants="warning" href={`/productos/eliminar/${product_id}`}>
             Eliminar
           </Link>
         </CardFooter>
