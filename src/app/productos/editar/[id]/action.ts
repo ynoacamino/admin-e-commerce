@@ -12,7 +12,7 @@ export const action = async (formData: FormData) => {
   const product_brand = Number(formData.get('product_brand'));
   const product_image = formData.get('product_image');
 
-  const response = await fetch('http://localhost:3001/api/product/update', {
+  const response = await fetch(`${process.env.URL_API}/api/product/update`, {
     method: 'POST',
     body: JSON.stringify({
       product_name,

@@ -7,7 +7,7 @@ export const action = async (formData: FormData) => {
   const category_name = formData.get('category_name');
   const category_description = formData.get('category_description');
 
-  const response = await axios.post('http://localhost:3001/api/category/create', {
+  const response = await axios.post(`${process.env.URL_API}/api/category/create`, {
     category_name,
     category_description,
   });

@@ -6,7 +6,7 @@ export const action = async (formData: FormData) => {
 
   const id = formData.get('category_id');
 
-  const response = await axios.post('http://localhost:3001/api/category/delete', { category_id: Number(id) });
+  const response = await axios.post(`${process.env.URL_API}/api/category/delete`, { category_id: Number(id) });
 
   if (response.status !== 200) {
     throw new Error('Error deleting category');

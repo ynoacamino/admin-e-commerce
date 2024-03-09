@@ -5,7 +5,7 @@ export const action = async (formData: FormData) => {
 
   const id = formData.get('product_id');
   console.log({ id });
-  const response = await fetch('http://localhost:3001/api/product/delete', {
+  const response = await fetch(`${process.env.URL_API}/api/product/delete`, {
     method: 'POST',
     body: JSON.stringify({ product_id: Number(id) }),
     headers: {

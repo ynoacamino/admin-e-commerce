@@ -12,7 +12,7 @@ const getData = async (id: string) => {
   const brand_id = Number(id);
 
   try {
-    const response = await fetch('http://localhost:3001/api/brand/read', {
+    const response = await fetch(`${process.env.URL_API}/api/brand/read`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

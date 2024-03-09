@@ -12,7 +12,7 @@ const getProduct = async (id: string) => {
   const product_id = Number(id);
 
   try {
-    const response = await fetch('http://localhost:3001/api/product/read', {
+    const response = await fetch(`${process.env.URL_API}/api/product/read`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
