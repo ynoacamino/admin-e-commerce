@@ -3,15 +3,20 @@ import ProductCard from '@/components/ui/ProductCard';
 import { PopultedProduct } from '@/types/Product/Product';
 
 const getProducts = async () => {
-  const response = await fetch('http://localhost:3001/api/product/read', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({}),
-  });
-  const data = await response.json();
-  return data as PopultedProduct[];
+  try {
+    const response = await fetch('http://localhost:3001/api/product/read', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    });
+    const data = await response.json();
+    return data as PopultedProduct[];
+  } catch (error) {
+    console.error('Error:', error);
+    return [] as PopultedProduct[];
+  }
 };
 
 export default async function ProductosLayout({ children }: { children: React.ReactNode }) {

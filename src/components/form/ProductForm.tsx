@@ -9,13 +9,21 @@ import { prisma } from '@/lib/prisma';
 import ImageForm from './ImageForm';
 
 const getProductInfo = async () => {
-  const categories = await prisma.category.findMany();
-  const brands = await prisma.brand.findMany();
+  try {
+    const categories = await prisma.category.findMany();
+    const brands = await prisma.brand.findMany();
 
-  return {
-    categories,
-    brands,
-  };
+    return {
+      categories,
+      brands,
+    };
+  } catch (error) {
+    console.error('Error:', error);
+    return {
+      categories: [],
+      brands: [],
+    };
+  }
 };
 
 export default async function ProductForm(
