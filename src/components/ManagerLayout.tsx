@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 export default function ManagerLayout({
   children, title, newButtonName, newButtonHref,
 }: {
-  children: React.ReactNode, title: string, newButtonName: string, newButtonHref: string
+  children: React.ReactNode, title: string, newButtonName?: string, newButtonHref?: string
 }) {
   const router = useRouter();
   return (
@@ -16,15 +16,19 @@ export default function ManagerLayout({
       <H1>
         {title}
       </H1>
-      <div className="pb-4 flex gap-4">
-        <Link variants="default" href={newButtonHref}>
-          <span className="mr-2">+</span>
-          {newButtonName}
-        </Link>
-        <Button onClick={() => router.refresh()}>
-          🔄️ Reload
-        </Button>
-      </div>
+      {
+        newButtonHref && newButtonName && (
+        <div className="pb-4 flex gap-4">
+          <Link variants="default" href={newButtonHref}>
+            <span className="mr-2">+</span>
+            {newButtonName}
+          </Link>
+          <Button onClick={() => router.refresh()}>
+            🔄️ Reload
+          </Button>
+        </div>
+        )
+      }
       <div className="flex flex-col gap-4">
         {children}
       </div>
