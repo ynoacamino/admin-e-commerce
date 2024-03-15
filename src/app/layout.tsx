@@ -9,7 +9,7 @@ import ThemeProvider from '@/components/providers/ThemeProvider';
 
 import NavBar from '@/components/NavBar';
 import LateralBar from '@/components/initialPage/LateralBar';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
