@@ -10,7 +10,8 @@ import {
 } from '@/components/ui/table';
 import ManagerLayout from '@/components/ManagerLayout';
 import { prisma } from '@/lib/prisma';
-import { Button } from '@/components/ui/button';
+import CancelButton from './CancelButton';
+import AcceptButton from './AceptButton';
 
 const getUsers = async () => {
   const sales = await prisma?.cart.findMany({
@@ -56,13 +57,9 @@ export default async function SalesPage() {
                 <TableCell>{product.product_price}</TableCell>
                 <TableCell>{cart_count}</TableCell>
                 <TableCell>{product.product_price * cart_count}</TableCell>
-                <TableCell>
-                  <Button variant="destructive">
-                    Cancelar
-                  </Button>
-                  <Button variant="secondary">
-                    Aceptar
-                  </Button>
+                <TableCell className="flex flex-col gap-2">
+                  <CancelButton user_id={user.user_id} product_id={product.product_id} />
+                  <AcceptButton user_id={user.user_id} product_id={product.product_id} />
                 </TableCell>
               </TableRow>
             ))}
