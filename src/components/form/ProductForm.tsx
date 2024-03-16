@@ -18,7 +18,6 @@ const getProductInfo = async () => {
       brands,
     };
   } catch (error) {
-    console.error('Error:', error);
     return {
       categories: [],
       brands: [],

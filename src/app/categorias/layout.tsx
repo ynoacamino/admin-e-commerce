@@ -18,7 +18,6 @@ const getCategoriesData = async () => {
     const data = await response.json();
     return data;
   } catch (e) {
-    console.error(e);
     return [];
   }
   // const categories = await prisma.category.findMany();

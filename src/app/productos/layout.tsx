@@ -14,7 +14,6 @@ const getProducts = async () => {
     const data = await response.json();
     return data as PopultedProduct[];
   } catch (error) {
-    console.error('Error:', error);
     return [] as PopultedProduct[];
   }
 };

@@ -22,7 +22,6 @@ const getData = async (id: string) => {
     const data = await response.json();
     return data as Brand;
   } catch (error) {
-    console.error('Error:', error);
     return null;
   }
 };
