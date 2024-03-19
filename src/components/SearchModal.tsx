@@ -2,29 +2,28 @@
 
 import * as React from 'react';
 import {
-  CalendarIcon,
-  EnvelopeClosedIcon,
-  FaceIcon,
-  GearIcon,
-  PersonIcon,
-  RocketIcon,
   MagnifyingGlassIcon,
 } from '@radix-ui/react-icons';
+
 import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from '@/components/ui/command';
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
+import algoliasearch from 'algoliasearch/lite';
 import { Button } from './ui/button';
-// traduce todo al espanol
+import ProductCard from './ui/ProductCard';
+
+const searchClient = algoliasearch('WIBFBYZYZN', '0327e13df4497a05c6db93789d13cb63');
+
+const client = searchClient.initIndex('e-commerce-ynoacamino');
 
 export default function SearchModal() {
   const [open, setOpen] = React.useState(false);
+  const [input, setInput] = React.useState('');
+  const [products, setProducts] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -37,52 +36,51 @@ export default function SearchModal() {
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, []);
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
+    setInput(e.target.value);
+
+    const { hits } = await client.search(e.target.value, {
+      hitsPerPage: 2,
+    });
+
+    setProducts(hits);
+  };
   return (
     <>
-      <Button variant="outline" size="sm" className="text-zinc-500 justify-start" onClick={() => setOpen(true)}>
+      <Button variant="outline" size="sm" className="justify-start" onClick={() => setOpen(true)}>
         <MagnifyingGlassIcon className="w-5 h-5 md:mr-4" />
         <span className="min-w-32 text-start hidden md:flex">
           Buscar productos...
         </span>
       </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              <span>Calendar</span>
-            </CommandItem>
-            <CommandItem>
-              <FaceIcon className="mr-2 h-4 w-4" />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem>
-              <RocketIcon className="mr-2 h-4 w-4" />
-              <span>Launch</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <PersonIcon className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <EnvelopeClosedIcon className="mr-2 h-4 w-4" />
-              <span>Mail</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <GearIcon className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-xl bg-accent">
+          <DialogHeader>
+            <DialogTitle>Busca tu producto favorito</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-4">
+            <div className="border-primary rounded-sm border bg-background flex h-14 items-center">
+              <MagnifyingGlassIcon className="w-10 h-10 p-1" />
+              <input type="text" name="" id="" className="appearance-none bg-transparent border-0 flex-1 text-xl h-full focus-visible:outline-none pl-1 text-primary" onChange={handleChange} value={input} />
+            </div>
+            <div className="flex flex-col gap-2">
+              {
+                products.map((p) => (
+                  <ProductCard
+                    product_brand={p.product_brand}
+                    product_id={p.product_id}
+                    product_image={p.product_image}
+                    product_name={p.product_name}
+                    product_price={p.product_price}
+                    key={crypto.randomUUID()}
+                  />
+                ))
+              }
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
 
   );
