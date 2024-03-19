@@ -9,12 +9,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    signIn: async ({ account, profile }) => {
-      if (account?.provider === 'google') {
-        return profile?.email === process.env.ADMIN_EMAIL;
-      }
-      return false;
-    },
+    signIn: async () => true,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
